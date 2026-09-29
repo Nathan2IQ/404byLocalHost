@@ -1,3 +1,5 @@
+import QrScannerPanel from "@/components/QrScanner";
+
 export default function Home() {
   return (
     <div className="flex flex-col flex-1 items-center justify-center font-sans">
@@ -14,6 +16,13 @@ export default function Home() {
           <p className="text-3xl font-caveat mb-2 text-yellow">
             Explore, scanne, résous... et assemble le puzzle !
           </p>
+
+          <div className="mt-6 flex flex-col items-center gap-2">
+            <h3 className="text-xl font-bold text-white">
+              🧪 Test : scanner un QR
+            </h3>
+            <QrScannerPanel />
+          </div>
         </div>
 
         <section className="my-4 bg-bg px-4 py-8 md:px-6">

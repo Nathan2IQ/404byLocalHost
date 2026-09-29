@@ -1,26 +1,59 @@
+/* Réutiliser les tokens (ex. bg-primary) plutôt que des valeurs arbitraires. */
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-bg: #FFFFFF;
+  --color-text: #2C2C2C;
+  --color-text-secondary: #57534D;
+  --color-border: #D6D3D1;
+  --color-neutral-light: #A6A09B;
+  --color-neutral-dark: #292524;
+  --color-primary: #E4101D;
+  --color-green: #419B6E;
+  --color-lime: #63B336;
+  --color-yellow: #DDBE24;
+  --font-sans: var(--font-plus-jakarta-sans), "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-caveat: var(--font-caveat-source), cursive;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    @apply box-border m-0;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    @apply bg-bg text-text font-sans text-base;
+  }
+
+  h1 {
+    @apply text-[60px] font-black text-text;
+  }
+
+  h2 {
+    @apply text-4xl font-extrabold text-text;
+  }
+
+  a {
+    @apply no-underline;
+  }
+
+  :where(a, button, input, textarea, select, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  img {
+    @apply block max-w-full;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .btn-primary {
+    @apply rounded-lg bg-primary px-6 py-2 font-semibold text-white transition-opacity duration-150 hover:opacity-90;
+  }
+
+  .btn-secondary {
+    @apply rounded-lg bg-transparent px-2 py-2 text-text-secondary transition-colors duration-150 hover:bg-neutral-light/15;
+  }
 }

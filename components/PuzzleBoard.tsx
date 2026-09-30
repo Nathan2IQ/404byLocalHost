@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type PointerEvent } from "react";
+import confetti from "canvas-confetti";
 import {
   GRID_COLS,
   GRID_ROWS,
@@ -12,11 +13,15 @@ import {
   type PuzzleState,
 } from "@/lib/puzzle";
 
-// Image source du puzzle et ses dimensions réelles en pixels.
+// Image du puzzle (celle qui est découpée en pièces) et ses dimensions réelles en pixels.
 // Important : si l'image change de taille, il faut mettre à jour ces deux valeurs.
-const IMAGE_SRC = "/pictures/localHost.png";
-const IMAGE_WIDTH = 742;
-const IMAGE_HEIGHT = 389;
+const IMAGE_SRC = "/pictures/localhost-numbers.png";
+const IMAGE_WIDTH = 1484;
+const IMAGE_HEIGHT = 778;
+
+// Images de la révélation finale : même cadrage exact que IMAGE_SRC, donc superposables telles quelles.
+const SIGN_OFF_SRC = "/pictures/localhost-sign-off.png";
+const SIGN_ON_SRC = "/pictures/localhost-sign-on.png";
 
 // Proportion (largeur/hauteur) d'une seule pièce, utilisée pour l'affichage des pièces
 // dans la bandeja (elles ne sont pas dans la grille, donc pas de ratio automatique).
@@ -63,6 +68,8 @@ export default function PuzzleBoard() {
   const [trayPieces, setTrayPieces] = useState<number[] | null>(null);
   // Pièce actuellement déplacée par le joueur (null si aucune).
   const [dragging, setDragging] = useState<Dragging | null>(null);
+  // Étape de la révélation finale, une fois le puzzle terminé.
+  const [reveal, setReveal] = useState<"hidden" | "off" | "on">("hidden");
 
   // Au montage : on lit ce qui est déjà placé, et on mélange les pièces restantes.
   useEffect(() => {
@@ -73,6 +80,57 @@ export default function PuzzleBoard() {
     );
     setTrayPieces(shuffle(remaining));
   }, []);
+
+  // Dès que le puzzle est terminé : petite pause, puis le néon apparaît éteint,
+  // puis il s'allume en grésillant.
+  useEffect(() => {
+    if (!placed || !isPuzzleSolved(placed)) {
+      setReveal("hidden");
+      return;
+    }
+    const showOff = setTimeout(() => setReveal("off"), 800);
+    const showOn = setTimeout(() => setReveal("on"), 1600);
+    return () => {
+      clearTimeout(showOff);
+      clearTimeout(showOn);
+    };
+  }, [placed]);
+
+  // Une fois le néon allumé : des feux d'artifice depuis les deux côtés de l'écran.
+  useEffect(() => {
+    if (reveal !== "on") return;
+
+    const duration = 8000;
+    const animationEnd = Date.now() + duration;
+
+    const interval = setInterval(() => {
+      const timeLeft = animationEnd - Date.now();
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        return;
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      confetti({
+        particleCount,
+        startVelocity: 30,
+        spread: 360,
+        ticks: 60,
+        zIndex: 100,
+        origin: { x: Math.random() * 0.2 + 0.1, y: Math.random() - 0.2 },
+      });
+      confetti({
+        particleCount,
+        startVelocity: 30,
+        spread: 360,
+        ticks: 60,
+        zIndex: 100,
+        origin: { x: Math.random() * 0.2 + 0.7, y: Math.random() - 0.2 },
+      });
+    }, 250);
+
+    return () => clearInterval(interval);
+  }, [reveal]);
 
   // Tant qu'on n'a pas encore lu la progression sauvegardée, on n'affiche rien.
   if (!placed || !trayPieces) return null;
@@ -122,22 +180,47 @@ export default function PuzzleBoard() {
     <div className="flex w-full max-w-md flex-col items-center gap-4 md:max-w-xl lg:max-w-2xl">
       {/* Plateau : 16 emplacements dans l'ordre attendu de l'image. */}
       <div
-        className="grid w-full overflow-hidden rounded-md border border-white/20"
-        style={{
-          aspectRatio: `${IMAGE_WIDTH} / ${IMAGE_HEIGHT}`,
-          gridTemplateColumns: `repeat(${GRID_COLS}, 1fr)`,
-          gridTemplateRows: `repeat(${GRID_ROWS}, 1fr)`,
-        }}
+        className="relative w-full overflow-hidden rounded-md border border-white/20"
+        style={{ aspectRatio: `${IMAGE_WIDTH} / ${IMAGE_HEIGHT}` }}
       >
-        {Array.from({ length: PIECE_COUNT }, (_, slotIndex) => (
+        <div
+          className="grid h-full w-full"
+          style={{
+            gridTemplateColumns: `repeat(${GRID_COLS}, 1fr)`,
+            gridTemplateRows: `repeat(${GRID_ROWS}, 1fr)`,
+          }}
+        >
+          {Array.from({ length: PIECE_COUNT }, (_, slotIndex) => (
+            <div
+              key={slotIndex}
+              // Attribut utilisé par handlePointerUp pour savoir sur quel emplacement on a lâché la pièce.
+              data-slot-index={slotIndex}
+              className="border border-white/10"
+              style={placed[slotIndex] ? pieceBackgroundStyle(slotIndex) : { backgroundColor: "rgba(255,255,255,0.06)" }}
+            />
+          ))}
+        </div>
+
+        {/* Révélation : le néon "LOCALHOST" éteint apparaît par-dessus les pièces. */}
+        <div
+          className="pointer-events-none absolute inset-0 transition-opacity duration-700"
+          style={{
+            backgroundImage: `url(${SIGN_OFF_SRC})`,
+            backgroundSize: "100% 100%",
+            opacity: reveal === "off" || reveal === "on" ? 1 : 0,
+          }}
+        />
+
+        {/* Puis il s'allume, avec un effet de grésillement de néon. */}
+        {reveal === "on" && (
           <div
-            key={slotIndex}
-            // Attribut utilisé par handlePointerUp pour savoir sur quel emplacement on a lâché la pièce.
-            data-slot-index={slotIndex}
-            className="border border-white/10"
-            style={placed[slotIndex] ? pieceBackgroundStyle(slotIndex) : { backgroundColor: "rgba(255,255,255,0.06)" }}
+            className="animate-neon-flicker pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage: `url(${SIGN_ON_SRC})`,
+              backgroundSize: "100% 100%",
+            }}
           />
-        ))}
+        )}
       </div>
 
       {/* Bandeja : pièces encore à placer. */}

@@ -56,4 +56,40 @@
   .btn-secondary {
     @apply rounded-lg bg-transparent px-2 py-2 text-text-secondary transition-colors duration-150 hover:bg-neutral-light/15;
   }
+
+  /* Simule un néon qui grésille en boucle, sans jamais rester parfaitement stable. */
+  .animate-neon-flicker {
+    animation: neon-flicker 3s linear infinite;
+  }
+}
+
+@keyframes neon-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  4% {
+    opacity: 0.4;
+  }
+  8% {
+    opacity: 1;
+  }
+  12% {
+    opacity: 0.2;
+  }
+  16% {
+    opacity: 1;
+  }
+  33% {
+    opacity: 0.5;
+  }
+  36% {
+    opacity: 1;
+  }
+  62% {
+    opacity: 0.3;
+  }
+  64% {
+    opacity: 1;
+  }
 }

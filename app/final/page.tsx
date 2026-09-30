@@ -9,6 +9,7 @@ import {
 } from "@/lib/progress";
 import ProgressTestPanel from "@/components/ProgressTestPanel";
 import PuzzleBoard from "@/components/PuzzleBoard";
+import PlanRevele from "@/components/PlanRevele";
 
 const TOTAL_ROOMS = 4;
 
@@ -28,6 +29,16 @@ export default function FinalPage() {
   const solved = solvedCount(progress);
   const complete = isComplete(progress);
   const missing = TOTAL_ROOMS - solved;
+
+  // Traduit notre progression (par RoomId) en ids de zones attendus par PlanRevele.
+  // "impression-3d" -> "impression" et "repos" (salle de repos) une fois les 4 salles finies.
+  const discoveredZones = [
+    ...(progress.salon ? ["salon"] : []),
+    ...(progress.coworking ? ["coworking"] : []),
+    ...(progress["impression-3d"] ? ["impression"] : []),
+    ...(progress.hub ? ["hub"] : []),
+    ...(complete ? ["repos"] : []),
+  ];
 
   return (
     <div className="flex flex-col flex-1 items-center justify-center font-sans">
@@ -64,6 +75,14 @@ export default function FinalPage() {
             🧪 Test : marquer les salles résolues
           </h3>
           <ProgressTestPanel onChange={setProgress} />
+        </div>
+
+        {/* Test : plan qui se révèle salle par salle (plan.svg de remplacement pour l'instant). */}
+        <div className="mt-8 flex w-full flex-col items-center gap-2">
+          <h3 className="text-lg font-bold text-white">
+            🗺️ Test : plan révélé
+          </h3>
+          <PlanRevele discovered={discoveredZones} />
         </div>
       </main>
     </div>

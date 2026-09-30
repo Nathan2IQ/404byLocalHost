@@ -1,6 +1,7 @@
 "use client";
 
-import { useId, useState, type FormEvent } from "react";
+import { useEffect, useId, useState, type FormEvent } from "react";
+import confetti from "canvas-confetti";
 import { markRoomSolved, solvedCount, type RoomId } from "../lib/progress";
 
 // Nombre total de salles à résoudre pour compléter le jeu.
@@ -26,6 +27,17 @@ export default function EnigmeInput({
   const [restantes, setRestantes] = useState<number | null>(null);
   const inputId = useId();
   const messageId = useId();
+
+  useEffect(() => {
+    if (restantes === null) return;
+
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      zIndex: 100,
+    });
+  }, [restantes]);
 
   function verifierReponse(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

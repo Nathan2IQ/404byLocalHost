@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Caveat, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
@@ -27,36 +28,30 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-neutral-dark">
         <header>
           <div className="flex items-center justify-between px-2">
-            <div className="text-2xl font-bold text-center  m-2 border rounded-2xl px-2 py-3 bg-white">
-              <span className="text-2xl text-black">{"</>"}</span>
-            </div>
-            <div className="flex flex-1 items-center justify-between">
-              <div className="flex flex-col justify-center">
-                <h1 className="text-2xl font-bold text-white">Localhost</h1>
-                <p className=" text-text-secondary">by 1cubaTech</p>
-              </div>
-              <Link
-                href="/"
-                className="rounded-lg border border-white/30 px-4 py-2 font-semibold text-white transition-colors hover:bg-white/10"
-              >
-                Accueil
-              </Link>
-            </div>
+            <Image
+              src="/logo_localhost_blanc.png"
+              alt="Localhost Logo"
+              width={200}
+              height={200}
+            />
+            <Link
+              href="/"
+              className="rounded-lg border border-white/30 px-4 py-2 mr-8 font-semibold text-white transition-colors hover:bg-white/10"
+            >
+              Accueil
+            </Link>
           </div>
           <div className="bg-neutral-light h-0.5 min-w-40 mt-2"></div>
         </header>
         {children}
         <footer className="text-center text-white pb-4 pt-2 px-4">
           <div className="flex flex-col justify-center items-center">
-            <div className="flex justify-center mb-2 items-center">
-              <div className="text-2xl font-bold text-center  m-2 border rounded-2xl px-2 py-3 bg-white">
-                <span className="text-2xl text-black">{"</>"}</span>
-              </div>
-              <div className="flex flex-col justify-center">
-                <h1 className="text-xl font-bold text-white">Localhost</h1>
-                <p className="text-medium text-text-secondary">by 1cubaTech</p>
-              </div>
-            </div>
+            <Image
+              src="/logo_localhost_blanc.png"
+              alt="Localhost Logo"
+              width={150}
+              height={150}
+            />
             <p className="text-text-secondary mt-2">
               Coworking tech ~ Cesson-Sévigné
             </p>

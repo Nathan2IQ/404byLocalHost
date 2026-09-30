@@ -2,17 +2,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #FFFFFF;
-  --color-text: #2C2C2C;
-  --color-text-secondary: #57534D;
-  --color-border: #D6D3D1;
-  --color-neutral-light: #A6A09B;
+  --color-bg: #ffffff;
+  --color-text: #2c2c2c;
+  --color-text-secondary: #57534d;
+  --color-border: #d6d3d1;
+  --color-neutral-light: #a6a09b;
   --color-neutral-dark: #292524;
-  --color-primary: #E4101D;
-  --color-green: #419B6E;
-  --color-lime: #63B336;
-  --color-yellow: #DDBE24;
-  --font-sans: var(--font-plus-jakarta-sans), "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --color-primary: #e4101d;
+  --color-green: #419b6e;
+  --color-lime: #63b336;
+  --color-yellow: #ddbe24;
+  --font-sans:
+    var(--font-plus-jakarta-sans), "Quicksand", system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
   --font-caveat: var(--font-caveat-source), cursive;
 }
 
@@ -39,7 +41,15 @@
     @apply no-underline;
   }
 
-  :where(a, button, input, textarea, select, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+  :where(
+    a,
+    button,
+    input,
+    textarea,
+    select,
+    summary,
+    [tabindex]:not([tabindex="-1"])
+  ):focus-visible {
     @apply outline-2 outline-offset-2 outline-primary;
   }
 
@@ -91,5 +101,47 @@
   }
   64% {
     opacity: 1;
+  }
+}
+
+@media screen {
+  .print-sheet {
+    display: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin: 18mm;
+}
+
+@media print {
+  body {
+    display: block !important;
+    min-height: 0 !important;
+    background: #fff !important;
+    color: #2c2c2c !important;
+  }
+
+  body > header,
+  body > footer,
+  .print-screen-only {
+    display: none !important;
+  }
+
+  .print-page-container {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .print-sheet {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 261mm;
+    border: 0 !important;
+    border-top: 8px solid #e4101d !important;
+    padding: 14mm !important;
+    box-shadow: none !important;
   }
 }

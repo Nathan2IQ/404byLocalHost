@@ -68,7 +68,7 @@ export default function CoworkingPage() {
 
           <EnigmeInput
             label="La clim est bavarde ?"
-            reponseAttendue={50}
+            reponseAttendue={"flocon"}
             roomId="coworking"
           />
         </div>{" "}

@@ -8,7 +8,7 @@ const TOTAL_ROOMS = 4;
 
 type EnigmeInputProps = {
   label: string;
-  reponseAttendue: number;
+  reponseAttendue: number | string;
   // Salle associée à cette énigme, utilisée pour mettre à jour la progression.
   roomId: RoomId;
 };

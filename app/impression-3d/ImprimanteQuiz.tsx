@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { markRoomSolved, solvedCount } from "@/lib/progress";
+
+// Nombre total de salles à résoudre pour compléter le jeu (comme dans EnigmeInput).
+const TOTAL_ROOMS = 4;
 
 type Question =
   | { id: string; label: string; type: "bool"; answer: "vrai" | "faux" }
@@ -82,12 +86,21 @@ function Credential({ label, value }: { label: string; value: string }) {
 
 function PrintStep() {
   const [printedText, setPrintedText] = useState<string | null>(null);
+  // Non-null déclenche l'affichage du pop-up de confirmation (contient le nombre de salles restantes).
+  const [restantes, setRestantes] = useState<number | null>(null);
   const correct =
     printedText !== null && matches(printedText, PRINTED_TEXT_ACCEPTED);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setPrintedText(String(new FormData(e.currentTarget).get("objet") ?? ""));
+    const value = String(new FormData(e.currentTarget).get("objet") ?? "");
+    setPrintedText(value);
+
+    if (matches(value, PRINTED_TEXT_ACCEPTED)) {
+      // Sauvegarde la salle comme résolue et calcule le nombre de salles restantes pour le pop-up.
+      const progress = markRoomSolved("impression-3d");
+      setRestantes(TOTAL_ROOMS - solvedCount(progress));
+    }
   }
 
   return (
@@ -144,6 +157,33 @@ function PrintStep() {
           </p>
         )}
       </form>
+
+      {/* Pop-up de confirmation affiché uniquement après une réponse correcte (identique à EnigmeInput). */}
+      {restantes !== null && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+        >
+          <div className="bg-white rounded-md p-6 max-w-sm w-full text-center shadow-xl">
+            <h4 className="text-2xl font-bold font-caveat mb-2">
+              Salle validée !
+            </h4>
+            <p className="text-text-secondary text-lg mb-4">
+              {restantes === 0
+                ? "Bravo, tu as résolu toutes les salles !"
+                : `Il reste encore ${restantes} salle${restantes > 1 ? "s" : ""} à résoudre.`}
+            </p>
+            <button
+              type="button"
+              onClick={() => setRestantes(null)}
+              className="bg-yellow-400 font-bold py-2 px-4 rounded-md"
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

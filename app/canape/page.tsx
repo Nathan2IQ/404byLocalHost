@@ -37,6 +37,7 @@ export default function CanapePage() {
           <EnigmeInput
             label="Combien y-a-t-il de pages dans le livre noir et vert avec un disque sur la couverture ?"
             reponseAttendue={314}
+            roomId="salon"
           />
         </div>
       </main>

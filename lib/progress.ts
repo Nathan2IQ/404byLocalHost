@@ -22,8 +22,7 @@ function createDefaultProgress(): ProgressState {
   };
 }
 
-// Lit la progression sauvegardée dans le cookie du navigateur.
-// À appeler uniquement depuis le navigateur (ex. dans un useEffect).
+// Lit la progression sauvegardée dans le cookie du navigateur
 export function getProgress(): ProgressState {
   // On cherche notre cookie parmi tous les cookies du site.
   const match = document.cookie

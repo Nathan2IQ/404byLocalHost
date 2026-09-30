@@ -19,7 +19,7 @@ export default function Home() {
 
           <div className="mt-6 flex flex-col items-center gap-2">
             <h3 className="text-xl font-bold text-white">
-              🧪 Test : scanner un QR
+              🔍 Test : scanner un QR
             </h3>
             <QrScannerPanel />
           </div>

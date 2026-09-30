@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import EnigmeInput from "../../components/EnigmeInput";
+import AvancementPartie from "@/components/AvancementPartie";
+import QrScannerPanel from "@/components/QrScanner";
 
 // Route accessible uniquement via QR code : ne pas y lier depuis la navigation.
 export const metadata: Metadata = {
@@ -25,6 +27,8 @@ export default function CanapePage() {
             </span>
           </p>
         </div>
+
+        <AvancementPartie final={false}/>
 
         <div className="py-8 px-4 bg-white">
           <h3 className="text-4xl font-bold font-caveat mb-2">

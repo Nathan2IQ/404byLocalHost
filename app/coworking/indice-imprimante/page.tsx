@@ -26,13 +26,13 @@ export default function IndiceImprimantePage() {
         </div>
 
         <div className="py-12">
-          <p className="mb-3 font-caveat text-3xl text-primary">
+          <p className="mb-1 font-caveat text-3xl text-primary">
             Ouvre l&apos;oeil...
           </p>
           <h1 className="text-4xl font-extrabold leading-tight text-text">
             Un mot se cache sur le boîtier.
           </h1>
-          <p className="mt-8 border-l-4 border-yellow-500 bg-stone-50 px-6 py-5 text-xl leading-relaxed text-text-secondary">
+          <p className="mt-5 border-l-4 border-yellow-500 bg-stone-50 px-6 py-5 text-xl leading-relaxed text-text-secondary">
             Si tu as trop chaud ou trop froid, n’hésites pas à régler la
             climatisation sur le boitier de commande sur le mur. D’ailleurs, si
             tu y jettes un coup d’œil, tu dois trouver un mot de marqué. Quel

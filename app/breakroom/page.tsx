@@ -46,10 +46,10 @@ export default function FinalPage() {
               // Les 4 salles sont résolues : on peut assembler le puzzle final.
               <>
                 <h2 className="text-4xl font-extrabold text-white">
-                  🧩 Puzzle complet !
+                  🔐 Dernière vérification
                 </h2>
                 <p className="text-white/80">
-                  Bravo, tu as résolu les 4 salles. Assemble le puzzle !
+                  Bravo, tu as résolu les 4 salles. Assemble le puzzle pour continuer !
                 </p>
                 <PuzzleBoard />
               </>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Caveat, Plus_Jakarta_Sans } from "next/font/google";
+import WifiChallengeModal from "@/components/WifiChallengeModal";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${plusJakartaSans.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-neutral-dark">
+        <WifiChallengeModal />
         <header>
           <div className="flex items-center justify-between px-2">
             <Image

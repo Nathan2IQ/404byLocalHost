@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ImprimanteQuiz from "./ImprimanteQuiz";
 import AvancementPartie from "@/components/AvancementPartie";
+import WifiRequiredGate from "@/components/WifiRequiredGate";
 
 // Route accessible uniquement via QR code : ne pas y lier depuis la navigation.
 export const metadata: Metadata = {
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function Impression3DPage() {
   return (
     <div className="flex flex-col flex-1 items-center justify-center font-sans">
+      <WifiRequiredGate>
       <main className="flex flex-col">
         <div className="p-4 mt-4">
           {/* wrap-break-word : en text-6xl, "l'imprimante" est plus large qu'un écran de téléphone. */}
@@ -36,6 +38,7 @@ export default function Impression3DPage() {
 
         <ImprimanteQuiz />
       </main>
+      </WifiRequiredGate>
 
     </div>
   );

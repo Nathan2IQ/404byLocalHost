@@ -2,6 +2,7 @@ import EnigmeInput from "@/components/EnigmeInput";
 import Link from "next/link";
 import type { Metadata } from "next";
 import AvancementPartie from "@/components/AvancementPartie";
+import WifiRequiredGate from "@/components/WifiRequiredGate";
 
 // Route accessible uniquement via QR code : ne pas y lier depuis la navigation.
 export const metadata: Metadata = {
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function CoworkingPage() {
   return (
     <div className="flex flex-col flex-1 items-center justify-center font-sans">
+      <WifiRequiredGate>
       <main className="flex flex-col">
         <div className="p-4 mt-4">
           <h2 className="text-6xl text-white font-extrabold mb-2">
@@ -77,6 +79,7 @@ export default function CoworkingPage() {
           />
         </div>{" "}
       </main>
+      </WifiRequiredGate>
     </div>
   );
 }

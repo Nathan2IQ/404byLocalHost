@@ -9,25 +9,41 @@ type AvancementPartieProps = {
 };
 
 // Légende des numéros affichés sur le plan, pour aider à s'y repérer.
-const LEGENDE_PLAN = [
-  { numero: 1, label: "Coworking" },
-  { numero: 3, label: "HUB" },
-  { numero: 5, label: "Canapé" },
-  { numero: 7, label: "Imprimante 3D" },
+// `zone` = identifiant de la zone sur le plan (absent pour la salle de repos, qui n'est pas une énigme).
+const LEGENDE_PLAN: { numero: number; label: string; zone?: string }[] = [
+  { numero: 1, label: "Coworking", zone: "coworking" },
+  { numero: 3, label: "HUB", zone: "hub" },
+  { numero: 5, label: "Canapé", zone: "salon" },
+  { numero: 7, label: "Imprimante 3D", zone: "impression" },
   { numero: 4, label: "Salle de repos" },
 ];
 
-function LegendePlan() {
+// Les salles déjà résolues passent en vert, comme elles s'éclairent sur le plan.
+function LegendePlan({ discovered }: { discovered: string[] }) {
   return (
     <ul className="mt-4 flex max-w-md flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-white">
-      {LEGENDE_PLAN.map(({ numero, label }) => (
-        <li key={numero} className="flex items-center gap-2">
-          <span className="inline-flex size-5 items-center justify-center rounded-full border border-white/20 bg-white/10 text-xs font-bold text-white">
-            {numero}
-          </span>
-          {label}
-        </li>
-      ))}
+      {LEGENDE_PLAN.map(({ numero, label, zone }) => {
+        const resolue = zone !== undefined && discovered.includes(zone);
+        return (
+          <li
+            key={numero}
+            className={`flex items-center gap-2 transition-colors ${
+              resolue ? "font-semibold text-lime" : ""
+            }`}
+          >
+            <span
+              className={`inline-flex size-5 items-center justify-center rounded-full border text-xs font-bold ${
+                resolue
+                  ? "border-lime bg-lime/20 text-lime"
+                  : "border-white/20 bg-white/10 text-white"
+              }`}
+            >
+              {numero}
+            </span>
+            {label}
+          </li>
+        );
+      })}
     </ul>
   );
 }
@@ -85,7 +101,7 @@ export default function AvancementPartie({
         </h3>
 
         <PlanRevele discovered={discoveredZones} />
-        <LegendePlan />
+        <LegendePlan discovered={discoveredZones} />
       </div>
     );
   } else {
@@ -97,7 +113,7 @@ export default function AvancementPartie({
         </h2>
         <br />
         <PlanRevele discovered={discoveredZones} />
-        <LegendePlan />
+        <LegendePlan discovered={discoveredZones} />
         <br />
         <p className="text-white/80">
           Reviens ici une fois les 4 salles résolues.

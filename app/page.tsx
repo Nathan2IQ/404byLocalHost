@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="flex flex-col flex-1 items-center justify-center font-sans">
       <main className="flex flex-col">
-        <div className="bg-stone py-8 px-4">
+        <div className="bg-stone py-8 px-4 ">
           <h2 className="text-6xl text-white font-extrabold my-4">
             4 salles
             <br /> 4 défis
@@ -18,16 +18,21 @@ export default function Home() {
           </p>
 
           <div className="mt-8 flex flex-col items-center gap-2">
+            <AvancementPartie />
             <h3 className="text-xl font-bold text-center text-white">
               Scanne un QR code pour commencer le défi !
             </h3>
             <QrScannerPanel />
-            <AvancementPartie />
           </div>
         </div>
 
-        <section className="my-4 bg-bg px-4 py-8 md:px-6">
-          <h3 className="mb-6 text-3xl font-bold text-text md:text-4xl">
+        <div className="bg-white my-4 flex flex-col py-4 px-4">
+          <h3 className="text-4xl text-text font-bold my-10">🚪Les 4 salles</h3>
+          <SallesList />
+        </div>
+
+        <section className="my-4 bg-stone px-4 py-8 md:px-6">
+          <h3 className="mb-6 text-3xl font-bold text-white md:text-4xl">
             Ta mission, si tu l&apos;acceptes
           </h3>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -35,16 +40,18 @@ export default function Home() {
               <span className="inline-flex size-12 items-center justify-center rounded-md bg-red-500 text-xl font-extrabold leading-none text-white">
                 01
               </span>
-              <h4 className="text-2xl font-bold text-text">Explore</h4>
+              <h4 className="text-2xl font-bold text-black">Explore</h4>
               <p className="text-lg text-text-secondary">
                 Trouve les QR codes cachés dans les espaces.
               </p>
             </article>
             <article className="flex min-h-full flex-col gap-3 rounded-md border border-border bg-white p-5 shadow-sm">
-              <span className="inline-flex size-12 items-center justify-center rounded-md bg-yellow-500 text-xl font-extrabold leading-none text-text">
+              <span className="inline-flex size-12 items-center justify-center rounded-md bg-yellow-500 text-xl font-extrabold leading-none text-white">
                 02
               </span>
-              <h4 className="text-2xl font-bold text-text">Relève les défis</h4>
+              <h4 className="text-2xl font-bold text-black">
+                Relève les défis
+              </h4>
               <p className="text-lg text-text-secondary">
                 4 salles, 4 défis et 4 pièces du puzzle à récupérer.
               </p>
@@ -53,7 +60,7 @@ export default function Home() {
               <span className="inline-flex size-12 items-center justify-center rounded-md bg-green-600 text-xl font-extrabold leading-none text-white">
                 03
               </span>
-              <h4 className="text-2xl font-bold text-text">
+              <h4 className="text-2xl font-bold text-black">
                 Débloque le final
               </h4>
               <p className="text-lg text-text-secondary">
@@ -62,13 +69,6 @@ export default function Home() {
             </article>
           </div>
         </section>
-
-        <div className="bg-stone my-4 flex flex-col py-4 px-4">
-          <h3 className="text-4xl text-white font-bold mb-10">
-            🚪Les 4 salles
-          </h3>
-          <SallesList />
-        </div>
 
         <section className="mt-4 bg-bg px-4 py-8 md:px-6">
           <h3 className="mb-2 text-3xl font-bold text-text md:text-4xl">

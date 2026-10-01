@@ -23,7 +23,7 @@ Dans chaque espace du lieu (le Canapé, le Coworking, l'atelier d'impression 3D,
 | **Durée**                | Environ 20 minutes                                                                                                                          |
 | **Prérequis visiteur**   | Un smartphone avec appareil photo, capable de se connecter au WiFi du lieu. Aucune connaissance technique.                                  |
 | **Progression**          | Enregistrée dans des cookies pendant 30 jours : le visiteur peut faire une pause et reprendre avec le même téléphone et le même navigateur. |
-| **Données personnelles** | Aucune donnée collectée, aucun compte utilisateur.                                                                                          |
+| **Données personnelles** | Aucune progression ni compte utilisateur stocké par l'application. À la fin, l'adresse email et le commentaire facultatif sont transmis via EmailJS pour envoyer le badge et le retour. |
 
 ### Parcours
 

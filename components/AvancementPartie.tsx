@@ -85,17 +85,23 @@ export default function AvancementPartie({
             message
           ) : (
             <>
-              🎉 Bravo 🎉
-              <br />
-              Vous avez découvert toutes les salles !
-              <br />
-              <span className="text-3xl">
-                Dirigez-vous maintenant vers la{" "}
-                <span className="font-bold text-5xl font-caveat text-yellow-500">
-                  salle de pause
-                </span>{" "}
-                pour réaliser l&apos;épreuve finale. 🏴‍☠️
-              </span>
+              <p>
+                🎉 Bravo 🎉
+                <br />
+                Vous avez découvert toutes les salles !
+                <br />
+                <span className="text-3xl">
+                  Dirigez-vous maintenant vers la{" "}
+                  <span className="font-bold text-5xl font-caveat text-yellow-500">
+                    salle de pause
+                  </span>{" "}
+                  pour réaliser l&apos;épreuve finale. 🏴‍☠️
+                </span>
+              </p>
+              <p className="text-lg font-sans text-text text-center border rounded-2xl border-red-500 bg-red-200 p-4 mt-4">
+                Attention : cette fois le QR code sera bien dissimulé, soyez
+                attentif !
+              </p>
             </>
           )}
         </h3>

@@ -50,11 +50,11 @@ export default function SallesList() {
             key={key}
             className={`${CARD_BASE} ${solved ? CARD_SOLVED : CARD_PENDING}`}
           >
-            <h4 className="flex items-center text-2xl font-bold">
+            <h4 className="flex items-center text-2xl text-black font-bold">
               {title}
               {solved && <span aria-label="Défi réussi">✅</span>}
             </h4>
-            <p className="text-lg text-white/80">{description}</p>
+            <p className="text-lg text-text">{description}</p>
           </div>
         );
       })}

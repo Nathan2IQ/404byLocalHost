@@ -138,32 +138,6 @@ export default function PuzzleBoard() {
   const [comment, setComment] = useState("");
   const [sending, setSending] = useState(false);
 
-  //Envoie du mail de fin
-  /*
-  useEffect(() => {
-    if (!placed) return;
-    if (!isPuzzleSolved(placed) || mailSent) return;
-
-    emailjs
-        .send(
-            process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-            process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-            {
-              to_email: "lepajolec.alexandre@orange.fr",
-              date: new Date().toLocaleString(),
-            },
-            process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-        )
-        .then(() => {
-          console.log("Email envoyé");
-        })
-        .catch((err) => {
-          console.error("Erreur EmailJS :", err);
-        });
-
-    setMailSent(true);
-  }, [placed, mailSent]);*/
-
   // Tant qu'on n'a pas encore lu la progression sauvegardée, on n'affiche rien.
   if (!placed || !trayPieces) return null;
 

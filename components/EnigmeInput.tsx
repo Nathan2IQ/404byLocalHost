@@ -77,7 +77,9 @@ export default function EnigmeInput({
       return;
     }
 
-    const estCorrecte = valeur === String(reponseAttendue);
+    // Insensible aux majuscules/minuscules (ex. "Flocon" = "flocon").
+    const estCorrecte =
+      valeur.toLowerCase() === String(reponseAttendue).trim().toLowerCase();
     setStatut(estCorrecte ? "correcte" : "incorrecte");
 
     if (estCorrecte) {
@@ -109,7 +111,8 @@ export default function EnigmeInput({
         <input
           id={inputId}
           type="text"
-          inputMode="numeric"
+          // Clavier numérique seulement si la réponse attendue est un nombre.
+          inputMode={typeof reponseAttendue === "number" ? "numeric" : "text"}
           value={reponse}
           onChange={(event) => {
             setReponse(event.target.value);

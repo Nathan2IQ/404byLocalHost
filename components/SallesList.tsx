@@ -43,21 +43,26 @@ export default function SallesList() {
 
   return (
     <>
-      {SALLES.map(({ key, title, description }) => {
-        const solved = !!progress?.[key];
-        return (
-          <div
-            key={key}
-            className={`${CARD_BASE} ${solved ? CARD_SOLVED : CARD_PENDING}`}
-          >
-            <h4 className="flex items-center text-2xl text-black font-bold">
-              {title}
-              {solved && <span aria-label="Défi réussi">✅</span>}
-            </h4>
-            <p className="text-lg text-text">{description}</p>
-          </div>
-        );
-      })}
+      {/* Salles restantes d'abord, salles terminées ensuite. */}
+      {[...SALLES]
+        .sort(
+          (a, b) => Number(!!progress?.[a.key]) - Number(!!progress?.[b.key]),
+        )
+        .map(({ key, title, description }) => {
+          const solved = !!progress?.[key];
+          return (
+            <div
+              key={key}
+              className={`${CARD_BASE} ${solved ? CARD_SOLVED : CARD_PENDING}`}
+            >
+              <h4 className="flex items-center text-2xl text-black font-bold">
+                {title}
+                {solved && <span aria-label="Défi réussi">✅</span>}
+              </h4>
+              <p className="text-lg text-text">{description}</p>
+            </div>
+          );
+        })}
     </>
   );
 }

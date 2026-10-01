@@ -69,12 +69,20 @@ export default function AccueilSections({
       </div>
 
       <details className="group mt-2 mb-6 px-4">
-        <summary className="cursor-pointer list-none text-center text-sm text-white/60 underline underline-offset-2 hover:text-white">
+        {/* Bouton discret dans le style des cartes de salle ; la flèche pivote à l'ouverture. */}
+        <summary className="mx-auto flex w-fit cursor-pointer list-none items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white/80 shadow-lg backdrop-blur-xl transition-colors hover:border-yellow/60 hover:text-white [&::-webkit-details-marker]:hidden">
+          <span aria-hidden="true">📜</span>
           <span className="group-open:hidden">
             Revoir la mission et les règles
           </span>
           <span className="hidden group-open:inline">
             Masquer la mission et les règles
+          </span>
+          <span
+            aria-hidden="true"
+            className="text-yellow transition-transform duration-200 group-open:rotate-180"
+          >
+            ▾
           </span>
         </summary>
         <div className="mt-4 -mx-4">

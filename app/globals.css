@@ -212,10 +212,19 @@
     display: block !important;
     width: 100% !important;
     max-width: none !important;
-    min-height: 261mm;
+    /* Volontairement < 261mm (hauteur imprimable A4 - marges) pour laisser
+       une marge de sécurité : les écarts de rendu de police sur mobile
+       faisaient déborder une 2e page quasi vide. */
+    height: 240mm;
+    max-height: 240mm;
+    overflow: hidden;
     border: 0 !important;
     border-top: 8px solid #e4101d !important;
     padding: 14mm !important;
     box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    break-after: avoid;
+    page-break-after: avoid;
   }
 }

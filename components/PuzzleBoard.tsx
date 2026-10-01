@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type PointerEvent } from "react";
+import emailjs from "@emailjs/browser";
 import confetti from "canvas-confetti";
 import {
   GRID_COLS,
@@ -132,8 +133,91 @@ export default function PuzzleBoard() {
     return () => clearInterval(interval);
   }, [reveal]);
 
+  const [mailSent, setMailSent] = useState(false);
+  const [playerEmail, setPlayerEmail] = useState("");
+  const [comment, setComment] = useState("");
+  const [sending, setSending] = useState(false);
+
+  //Envoie du mail de fin
+  /*
+  useEffect(() => {
+    if (!placed) return;
+    if (!isPuzzleSolved(placed) || mailSent) return;
+
+    emailjs
+        .send(
+            process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+            process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+            {
+              to_email: "lepajolec.alexandre@orange.fr",
+              date: new Date().toLocaleString(),
+            },
+            process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+        )
+        .then(() => {
+          console.log("Email envoyé");
+        })
+        .catch((err) => {
+          console.error("Erreur EmailJS :", err);
+        });
+
+    setMailSent(true);
+  }, [placed, mailSent]);*/
+
   // Tant qu'on n'a pas encore lu la progression sauvegardée, on n'affiche rien.
   if (!placed || !trayPieces) return null;
+
+  async function handleSendMail() {
+    if (!playerEmail) {
+      alert("Veuillez renseigner votre adresse email.");
+      return;
+    }
+
+    try {
+      setSending(true);
+
+      await emailjs.send(
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_FEEDBACK!,
+          {
+            player_email: playerEmail,
+            comment: comment || "Aucun commentaire",
+            date: new Date().toLocaleString(),
+          },
+          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+
+      setMailSent(true);
+    } catch (err) {
+      console.error("Erreur EmailJS :", err);
+      alert("Erreur lors de l'envoi.");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  async function mailDeFin() {
+    try {
+      setSending(true);
+
+      await emailjs.send(
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_EMAIL_FIN!,
+          {
+            to_email: playerEmail,
+            date: new Date().toLocaleString(),
+          },
+          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+
+      setMailSent(true);
+    } catch (err) {
+      console.error("Erreur EmailJS :", err);
+      alert("Erreur lors de l'envoi.");
+    } finally {
+      setSending(false);
+    }
+  }
 
   // Remet le puzzle à zéro : toutes les pièces retournent dans la bandeja, mélangées.
   function handleReset() {
@@ -259,7 +343,52 @@ export default function PuzzleBoard() {
       )}
 
       {isPuzzleSolved(placed) && (
-        <p className="text-2xl font-bold text-lime">🎉 Puzzle terminé !</p>
+          <div className="flex w-full flex-col gap-4 rounded-lg border border-lime/30 bg-black/20 p-4">
+            <p className="text-center text-2xl font-bold text-lime">
+              🎉 Puzzle terminé !
+            </p>
+
+            {!mailSent ? (
+                <>
+                  <p className="text-center text-sm text-white/80">
+                    Laissez un commentaire (facultatif) et renseignez votre email pour
+                    recevoir votre badge de fin d'aventure.
+                  </p>
+
+                  <input
+                      type="email"
+                      placeholder="Votre adresse email"
+                      value={playerEmail}
+                      onChange={(e) => setPlayerEmail(e.target.value)}
+                      className="rounded border border-white/20 bg-black/40 p-2 text-white"
+                      required
+                  />
+
+                  <textarea
+                      placeholder="Votre commentaire (facultatif)"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      rows={4}
+                      className="rounded border border-white/20 bg-black/40 p-2 text-white"
+                  />
+
+                  <button
+                      onClick={() => {
+                        handleSendMail();
+                        mailDeFin();
+                      }}
+                      disabled={sending}
+                      className="rounded bg-lime px-4 py-2 font-bold text-black hover:opacity-90 disabled:opacity-50"
+                  >
+                    {sending ? "Envoi..." : "Envoyer"}
+                  </button>
+                </>
+            ) : (
+                <p className="text-center font-semibold text-lime">
+                  ✅ Merci ! Votre mail a bien été envoyé.
+                </p>
+            )}
+          </div>
       )}
 
       <button

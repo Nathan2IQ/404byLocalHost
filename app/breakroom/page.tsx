@@ -5,6 +5,7 @@ import {
   getProgress,
   isComplete,
   solvedCount,
+  markRoomSolved,
   type ProgressState,
 } from "@/lib/progress";
 import PuzzleBoard from "@/components/PuzzleBoard";
@@ -25,6 +26,11 @@ export default function FinalPage() {
   // Tant qu'on n'a pas encore lu la progression, on n'affiche rien.
   if (!progress) return null;
 
+  markRoomSolved("salon");
+  markRoomSolved("coworking");
+  markRoomSolved("impression-3d");
+  markRoomSolved("hub");
+
   const discoveredZones = [
 
     ...(progress.salon ? ["salon"] : []),
@@ -33,6 +39,9 @@ export default function FinalPage() {
     ...(progress.hub ? ["hub"] : []),
 
   ];
+
+
+
 
 
 

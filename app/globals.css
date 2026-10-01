@@ -8,6 +8,7 @@
   --color-border: #d6d3d1;
   --color-neutral-light: #a6a09b;
   --color-neutral-dark: #292524;
+  --color-stone: #44403c;
   --color-primary: #e4101d;
   --color-green: #419b6e;
   --color-lime: #63b336;
@@ -70,6 +71,79 @@
   /* Simule un néon qui grésille en boucle, sans jamais rester parfaitement stable. */
   .animate-neon-flicker {
     animation: neon-flicker 3s linear infinite;
+  }
+
+  /* Apparition douce du message de correction sous une question du quiz. */
+  .animate-quiz-feedback {
+    animation: quiz-feedback-in 0.3s ease-out;
+  }
+
+  /* Petit tremblement pour signaler une mauvaise réponse. */
+  .animate-quiz-shake {
+    animation: quiz-shake 0.4s ease-in-out;
+  }
+
+  /* Effet "pop" pour les boutons/écrans qui apparaissent dynamiquement dans le quiz. */
+  .animate-quiz-pop {
+    animation: quiz-pop 0.25s ease-out;
+  }
+
+  /* Entrée de chaque carte de question du quiz (mobile first, une question à la fois). */
+  .animate-quiz-card-in {
+    animation: quiz-card-in 0.35s ease-out;
+  }
+}
+
+@keyframes quiz-feedback-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes quiz-shake {
+  10%,
+  90% {
+    transform: translateX(-2px);
+  }
+  20%,
+  80% {
+    transform: translateX(4px);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translateX(-6px);
+  }
+  40%,
+  60% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes quiz-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes quiz-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

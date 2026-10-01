@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import confetti from "canvas-confetti";
 import { markRoomSolved, solvedCount, type RoomId } from "../lib/progress";
 
@@ -13,6 +14,45 @@ type EnigmeInputProps = {
   // Salle associée à cette énigme, utilisée pour mettre à jour la progression.
   roomId: RoomId;
 };
+
+// Pop-up de confirmation affichée après une réponse correcte, partagée entre les salles.
+// Déclenche les confettis à l'affichage et propose un retour à l'accueil.
+export function SalleValideePopup({ restantes }: { restantes: number }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      zIndex: 100,
+    });
+  }, []);
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+    >
+      <div className="bg-white rounded-md p-6 max-w-sm w-full text-center shadow-xl">
+        <h4 className="text-4xl font-bold font-caveat mb-2">Salle validée !</h4>
+        <p className="text-text-secondary text-lg mb-4">
+          {restantes === 0
+            ? "Bravo, tu as résolu toutes les salles !"
+            : `Il reste encore ${restantes} salle${restantes > 1 ? "s" : ""} à résoudre, retournez fouiller les pièces... La carte s'est actualisée !`}
+        </p>
+        <button
+          type="button"
+          onClick={() => router.push("/")}
+          className="bg-yellow-400 font-bold py-2 px-4 rounded-md"
+        >
+          Retour à l&apos;accueil
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function EnigmeInput({
   label,
@@ -27,17 +67,6 @@ export default function EnigmeInput({
   const [restantes, setRestantes] = useState<number | null>(null);
   const inputId = useId();
   const messageId = useId();
-
-  useEffect(() => {
-    if (restantes === null) return;
-
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-      zIndex: 100,
-    });
-  }, [restantes]);
 
   function verifierReponse(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -115,32 +144,8 @@ export default function EnigmeInput({
           </p>
         )}
       </form>
-      {/* Pop-up de confirmation affiché uniquement après une réponse correcte. */}
-      {restantes !== null && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
-        >
-          <div className="bg-white rounded-md p-6 max-w-sm w-full text-center shadow-xl">
-            <h4 className="text-2xl font-bold font-caveat mb-2">
-              Salle validée !
-            </h4>
-            <p className="text-text-secondary text-lg mb-4">
-              {restantes === 0
-                ? "Bravo, tu as résolu toutes les salles !"
-                : `Il reste encore ${restantes} salle${restantes > 1 ? "s" : ""} à résoudre.`}
-            </p>
-            <button
-              type="button"
-              onClick={() => setRestantes(null)}
-              className="bg-yellow-400 font-bold py-2 px-4 rounded-md"
-            >
-              Fermer
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Pop-up de confirmation affichée uniquement après une réponse correcte. */}
+      {restantes !== null && <SalleValideePopup restantes={restantes} />}
     </div>
   );
 }

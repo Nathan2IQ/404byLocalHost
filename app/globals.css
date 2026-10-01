@@ -190,6 +190,14 @@
 }
 
 @media print {
+  /* Safari iOS : la hauteur forcée (h-full / min-h-full) de la page
+     est reportée sur une 2e feuille vide. On laisse le contenu décider. */
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
   body {
     display: block !important;
     min-height: 0 !important;
@@ -212,12 +220,12 @@
     display: block !important;
     width: 100% !important;
     max-width: none !important;
-    /* Volontairement < 261mm (hauteur imprimable A4 - marges) pour laisser
-       une marge de sécurité : les écarts de rendu de police sur mobile
-       faisaient déborder une 2e page quasi vide. */
-    height: 240mm;
-    max-height: 240mm;
-    overflow: hidden;
+    /* Pas de hauteur fixe : Safari iOS ignore @page (format et marges)
+       et met la page à l'échelle, donc une hauteur en mm (240mm) peut
+       dépasser la zone imprimable et créer une 2e page vide.
+       Le texte est court : la feuille tient sur une page sans hauteur imposée. */
+    height: auto !important;
+    max-height: none !important;
     border: 0 !important;
     border-top: 8px solid #e4101d !important;
     padding: 14mm !important;

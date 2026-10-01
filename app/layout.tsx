@@ -25,8 +25,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="fr"
       className={`${plusJakartaSans.variable} ${caveat.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-neutral-dark">
-        <header>
+      <body className="min-h-full flex flex-col bg-stone">
+        <header className="bg-neutral-dark">
           <div className="flex items-center justify-between px-2">
             <Image
               src="/logo_localhost_blanc.png"
@@ -44,7 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <div className="bg-neutral-light h-0.5 min-w-40 mt-2"></div>
         </header>
         {children}
-        <footer className="text-center text-white pb-4 pt-2 px-4">
+        <footer className="text-center bg-neutral-dark text-white pb-4 pt-2 px-4">
           <div className="flex flex-col justify-center items-center">
             <Image
               src="/logo_localhost_blanc.png"
@@ -52,10 +52,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               width={150}
               height={150}
             />
-            <p className="text-text-secondary mt-2">
-              Coworking tech ~ Cesson-Sévigné
-            </p>
-            <p className="text-text-secondary my-2">
+            <p className="text-white mt-2">Coworking tech ~ Cesson-Sévigné</p>
+            <p className="text-white my-2">
               &copy; 2026 Localhost. All rights reserved.
             </p>
           </div>

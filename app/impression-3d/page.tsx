@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import ImprimanteQuiz from "./ImprimanteQuiz";
+import ImprimanteQuiz from "../../components/ImprimanteQuiz";
 import AvancementPartie from "@/components/AvancementPartie";
+import RoomChallenge from "@/components/RoomChallenge";
 
 // Route accessible uniquement via QR code : ne pas y lier depuis la navigation.
 export const metadata: Metadata = {
@@ -14,10 +15,10 @@ export default function Impression3DPage() {
       <main className="flex flex-col">
         <div className="p-4 mt-4">
           {/* wrap-break-word : en text-6xl, "l'imprimante" est plus large qu'un écran de téléphone. */}
-          <h2 className="text-6xl text-white font-extrabold mb-2 wrap-break-word">
-            Bienvenue dans la salle de l&apos;imprimante 3D !
+          <h2 className="text-5xl text-white font-extrabold mb-2 wrap-break-word">
+            Bienvenue au FabLab !
           </h2>
-          <p className="text-xl py-4 mb-4 text-white">
+          <p className="text-xl pt-4 mb-4 text-white">
             Ici tu pourras{" "}
             <span className="font-bold text-2xl pl-1 pr-2 font-caveat text-yellow-500">
               matérialiser
@@ -26,17 +27,18 @@ export default function Impression3DPage() {
             <span className="font-bold text-2xl pl-1 pr-2 font-caveat text-yellow-500">
               idées créatives
             </span>
-            grâce à notre{" "}
+            , notamment grâce à notre{" "}
             <span className="font-bold text-2xl font-caveat text-yellow-500">
               imprimante 3D
             </span>
           </p>
         </div>
-          <AvancementPartie final={false}/>
+        <AvancementPartie final={false} />
 
-        <ImprimanteQuiz />
+        <RoomChallenge roomId="impression-3d">
+          <ImprimanteQuiz />
+        </RoomChallenge>
       </main>
-
     </div>
   );
 }

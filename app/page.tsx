@@ -30,8 +30,8 @@ export default function Home() {
         {/* Mission et règles repliées dès qu'une salle est terminée. */}
         <AccueilSections
           mission={
-            <section className="my-4 bg-bg px-4 py-8 md:px-6">
-              <h3 className="mb-6 text-3xl font-bold text-text md:text-4xl">
+            <section className="my-4 bg-stone px-4 py-8 md:px-6">
+              <h3 className="mb-6 text-3xl font-bold text-white md:text-4xl">
                 Ta mission, si tu l&apos;acceptes
               </h3>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -39,16 +39,16 @@ export default function Home() {
                   <span className="inline-flex size-12 items-center justify-center rounded-md bg-red-500 text-xl font-extrabold leading-none text-white">
                     01
                   </span>
-                  <h4 className="text-2xl font-bold text-text">Explore</h4>
+                  <h4 className="text-2xl font-bold text-black">Explore</h4>
                   <p className="text-lg text-text-secondary">
                     Trouve les QR codes cachés dans les espaces.
                   </p>
                 </article>
                 <article className="flex min-h-full flex-col gap-3 rounded-md border border-border bg-white p-5 shadow-sm">
-                  <span className="inline-flex size-12 items-center justify-center rounded-md bg-yellow-500 text-xl font-extrabold leading-none text-text">
+                  <span className="inline-flex size-12 items-center justify-center rounded-md bg-yellow-500 text-xl font-extrabold leading-none text-white">
                     02
                   </span>
-                  <h4 className="text-2xl font-bold text-text">
+                  <h4 className="text-2xl font-bold text-black">
                     Relève les défis
                   </h4>
                   <p className="text-lg text-text-secondary">
@@ -59,7 +59,7 @@ export default function Home() {
                   <span className="inline-flex size-12 items-center justify-center rounded-md bg-green-600 text-xl font-extrabold leading-none text-white">
                     03
                   </span>
-                  <h4 className="text-2xl font-bold text-text">
+                  <h4 className="text-2xl font-bold text-black">
                     Débloque le final
                   </h4>
                   <p className="text-lg text-text-secondary">

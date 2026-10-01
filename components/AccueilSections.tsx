@@ -15,7 +15,7 @@ type AccueilSectionsProps = {
 };
 
 // Sections de l'accueil sous le plan.
-// Premier passage : mission, salles et règles affichées en entier.
+// Premier passage : salles, mission et règles affichées en entier.
 // Dès qu'une salle est terminée : la progression passe en premier, et la mission
 // et les règles sont repliées derrière un lien discret « Revoir les règles ».
 export default function AccueilSections({
@@ -37,13 +37,11 @@ export default function AccueilSections({
   if (solved === 0) {
     return (
       <>
-        {mission}
-        <div className="bg-stone my-4 flex flex-col py-4 px-4">
-          <h3 className="text-4xl text-white font-bold mb-10">
-            🚪Les 4 salles
-          </h3>
+        <div className="bg-white my-4 flex flex-col py-4 px-4">
+          <h3 className="text-4xl text-text font-bold my-10">🚪Les 4 salles</h3>
           {salles}
         </div>
+        {mission}
         {regles}
       </>
     );
@@ -54,10 +52,10 @@ export default function AccueilSections({
 
   return (
     <>
-      <div className="bg-stone my-4 flex flex-col py-4 px-4">
-        <h3 className="text-4xl text-white font-bold">🚪Ta progression</h3>
-        <p className="mt-2 mb-6 text-xl text-white/80">
-          <span className="font-bold text-lime">
+      <div className="bg-white my-4 flex flex-col py-4 px-4">
+        <h3 className="text-4xl text-text font-bold mt-10">🚪Ta progression</h3>
+        <p className="mt-2 mb-6 text-xl text-text-secondary">
+          <span className="font-bold text-green">
             {`${solved} salle${pluriel} terminée${pluriel}`}
           </span>
           {" · "}

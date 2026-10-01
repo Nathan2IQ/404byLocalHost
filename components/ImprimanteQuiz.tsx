@@ -1,7 +1,18 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
-import { markRoomSolved, solvedCount } from "@/lib/progress";
+import {
+  useEffect,
+  useState,
+  useSyncExternalStore,
+  type FormEvent,
+} from "react";
+import {
+  isImpression3dQuizSolved,
+  markImpression3dQuizSolved,
+  markRoomSolved,
+  subscribeToImpression3dQuiz,
+  solvedCount,
+} from "@/lib/progress";
 import { SalleValideePopup } from "@/components/EnigmeInput";
 
 // Nombre total de salles à résoudre pour compléter le jeu (comme dans EnigmeInput).
@@ -147,6 +158,10 @@ function PrintStep() {
         >
           Ouvrir OctoPi
         </a>
+        <p className="mt-4 rounded-md border border-red-300/80 bg-red-950/20 px-3 py-2 text-center text-sm font-medium text-white">
+          L&apos;impression prend environ 10 minutes. Pendant ce temps, tu peux
+          continuer le jeu et explorer d&apos;autres salles si tu le souhaites.
+        </p>
       </div>
 
       <div className="py-8 px-4 bg-white">
@@ -216,6 +231,11 @@ export default function ImprimanteQuiz() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [finished, setFinished] = useState(false);
+  const quizSolved = useSyncExternalStore(
+    subscribeToImpression3dQuiz,
+    isImpression3dQuizSolved,
+    () => false,
+  );
 
   const total = QUESTIONS.length;
   const question = QUESTIONS[step];
@@ -227,7 +247,7 @@ export default function ImprimanteQuiz() {
   const score = QUESTIONS.filter((q) =>
     isCorrect(q, answers[q.id] ?? ""),
   ).length;
-  const won = finished && score === total;
+  const won = quizSolved || (finished && score === total);
 
   // Une fois la correction affichée, on enchaîne automatiquement sur la suite.
   useEffect(() => {
@@ -235,6 +255,7 @@ export default function ImprimanteQuiz() {
 
     const timeout = setTimeout(() => {
       if (isLast) {
+        markImpression3dQuizSolved();
         setFinished(true);
       } else {
         setStep((s) => s + 1);

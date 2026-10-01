@@ -2,12 +2,15 @@
 const COOKIE_NAME = "localhost_progress";
 // Durée de vie du cookie : 30 jours.
 const COOKIE_MAX_AGE_DAYS = 30;
+const quizListeners = new Set<() => void>();
 
 // Identifiant de chaque salle du jeu.
 export type RoomId = "salon" | "coworking" | "impression-3d" | "hub";
 
-// État de la progression : vrai/faux pour chaque salle (résolue ou non).
-export type ProgressState = Record<RoomId, boolean>;
+// État de progression des salles et réussite du quiz de l'imprimante.
+export type ProgressState = Record<RoomId, boolean> & {
+  impression3dQuiz: boolean;
+};
 
 // Liste des 4 salles, utilisée pour compter/vérifier la progression.
 const ROOM_IDS: RoomId[] = ["salon", "coworking", "impression-3d", "hub"];
@@ -19,6 +22,7 @@ function createDefaultProgress(): ProgressState {
     coworking: false,
     "impression-3d": false,
     hub: false,
+    impression3dQuiz: false,
   };
 }
 
@@ -34,7 +38,9 @@ export function getProgress(): ProgressState {
 
   try {
     // Le cookie contient un JSON encodé : on le décode et on le parse.
-    const value = JSON.parse(decodeURIComponent(match.slice(COOKIE_NAME.length + 1)));
+    const value = JSON.parse(
+      decodeURIComponent(match.slice(COOKIE_NAME.length + 1)),
+    );
     return { ...createDefaultProgress(), ...value };
   } catch {
     // Cookie corrompu ou invalide : on repart de zéro.
@@ -54,6 +60,24 @@ export function markRoomSolved(roomId: RoomId): ProgressState {
   return setRoomSolved(roomId, true);
 }
 
+// Marque le quiz de l'imprimante comme réussi sans valider la salle elle-même.
+export function markImpression3dQuizSolved(): ProgressState {
+  const progress = getProgress();
+  progress.impression3dQuiz = true;
+  saveProgress(progress);
+  quizListeners.forEach((listener) => listener());
+  return progress;
+}
+
+export function isImpression3dQuizSolved(): boolean {
+  return getProgress().impression3dQuiz;
+}
+
+export function subscribeToImpression3dQuiz(listener: () => void) {
+  quizListeners.add(listener);
+  return () => quizListeners.delete(listener);
+}
+
 // Change l'état (résolue ou non) d'une salle précise.
 export function setRoomSolved(roomId: RoomId, solved: boolean): ProgressState {
   const progress = getProgress();
@@ -65,6 +89,7 @@ export function setRoomSolved(roomId: RoomId, solved: boolean): ProgressState {
 // Remet la progression à zéro (utile entre deux joueurs).
 export function resetProgress() {
   document.cookie = `${COOKIE_NAME}=; path=/; max-age=0`;
+  quizListeners.forEach((listener) => listener());
 }
 
 // Compte le nombre de salles déjà résolues (entre 0 et 4).

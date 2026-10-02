@@ -7,7 +7,7 @@ import {
   solvedCount,
   type ProgressState,
 } from "@/lib/progress";
-import PuzzleBoard from "@/components/PuzzleBoard";
+import CaptchaPuzzle from "@/components/CaptchaPuzzle";
 import AvancementPartie from "@/components/AvancementPartie";
 
 const TOTAL_ROOMS = 4;
@@ -48,10 +48,8 @@ export default function FinalPage() {
                 <h2 className="text-4xl font-extrabold text-white">
                   🔐 Dernière vérification
                 </h2>
-                <p className="text-white/80">
-                  Bravo, tu as résolu les 4 salles. Assemble le puzzle pour continuer !
-                </p>
-                <PuzzleBoard />
+                {/* Case « Je ne suis pas un robot », puis le puzzle comme défi du captcha. */}
+                <CaptchaPuzzle />
               </>
           ) : (
               // Il manque encore des salles : la page reste bloquée.

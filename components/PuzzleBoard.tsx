@@ -258,7 +258,7 @@ export default function PuzzleBoard() {
               key={slotIndex}
               // Attribut utilisé par handlePointerUp pour savoir sur quel emplacement on a lâché la pièce.
               data-slot-index={slotIndex}
-              className="border border-white/10"
+              className="border border-white/70"
               style={
                 placed[slotIndex]
                   ? pieceBackgroundStyle(slotIndex)

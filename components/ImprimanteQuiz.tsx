@@ -255,7 +255,9 @@ export default function ImprimanteQuiz() {
 
     const timeout = setTimeout(() => {
       if (isLast) {
-        markImpression3dQuizSolved();
+        if (score === total) {
+          markImpression3dQuizSolved();
+        }
         setFinished(true);
       } else {
         setStep((s) => s + 1);
@@ -263,7 +265,7 @@ export default function ImprimanteQuiz() {
     }, AUTO_NEXT_DELAY_MS);
 
     return () => clearTimeout(timeout);
-  }, [isChecked, isLast]);
+  }, [isChecked, isLast, score, total]);
 
   function setAnswer(id: string, v: string) {
     setAnswers((prev) => ({ ...prev, [id]: v }));

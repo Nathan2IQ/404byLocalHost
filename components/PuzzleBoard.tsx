@@ -141,6 +141,8 @@ export default function PuzzleBoard() {
   const [playerEmail, setPlayerEmail] = useState("");
   const [comment, setComment] = useState("");
   const [sending, setSending] = useState(false);
+  // Message d'erreur affiché sous le bouton (null = pas d'erreur).
+  const [erreurMail, setErreurMail] = useState<string | null>(null);
 
   // Tant qu'on n'a pas encore lu la progression sauvegardée, on n'affiche rien.
   if (!placed || !trayPieces) return null;
@@ -177,9 +179,12 @@ export default function PuzzleBoard() {
   async function handleEnvoyer() {
     const email = playerEmail.trim();
     if (!EMAIL_VALIDE.test(email)) {
-      alert("Veuillez renseigner une adresse email valide.");
+      setErreurMail(
+        "Renseigne une adresse email valide (ex. prenom@mail.com).",
+      );
       return;
     }
+    setErreurMail(null);
 
     setSending(true);
     try {
@@ -198,7 +203,7 @@ export default function PuzzleBoard() {
       setMailSent(true);
     } catch (err) {
       console.error("Erreur EmailJS (badge) :", err);
-      alert("Erreur lors de l'envoi.");
+      setErreurMail("L'envoi a échoué. Vérifie ta connexion et réessaie.");
     } finally {
       // Toujours exécuté, succès ou échec : le bouton redevient cliquable.
       setSending(false);
@@ -359,8 +364,16 @@ export default function PuzzleBoard() {
                 type="email"
                 placeholder="Votre adresse email"
                 value={playerEmail}
-                onChange={(e) => setPlayerEmail(e.target.value)}
-                className="rounded border border-white/20 bg-black/40 p-2 text-white"
+                onChange={(e) => {
+                  setPlayerEmail(e.target.value);
+                  // Le joueur corrige : on efface l'ancien message d'erreur.
+                  setErreurMail(null);
+                }}
+                aria-invalid={erreurMail !== null}
+                aria-describedby={erreurMail ? "erreur-mail" : undefined}
+                className={`rounded border bg-black/40 p-2 text-white ${
+                  erreurMail ? "border-red-400" : "border-white/20"
+                }`}
                 required
               />
 
@@ -379,6 +392,17 @@ export default function PuzzleBoard() {
               >
                 {sending ? "Envoi..." : "Envoyer"}
               </button>
+
+              {/* Erreur dans le formulaire (au lieu d'une fenêtre alert()). */}
+              {erreurMail && (
+                <p
+                  id="erreur-mail"
+                  role="alert"
+                  className="text-center text-sm font-semibold text-red-300"
+                >
+                  {erreurMail}
+                </p>
+              )}
             </>
           ) : (
             <p className="text-center font-semibold text-lime">

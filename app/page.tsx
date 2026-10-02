@@ -114,7 +114,7 @@ export default function Home() {
                       Respect des lieux
                     </h4>
                     <p className="text-text-secondary">
-                      On explore, mais en respectant les gens qui travaille et
+                      On explore, mais en respectant les gens qui travaillent et
                       on ne casse rien :)
                     </p>
                   </div>

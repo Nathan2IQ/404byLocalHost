@@ -40,7 +40,7 @@ export default function CanapePage() {
               question suivante :
             </p>
             <EnigmeInput
-              label="Combien y-a-t-il de pages dans le livre noir et vert avec un disque sur la couverture ?"
+              label="Combien y a-t-il de pages dans le livre noir et vert avec un disque sur la couverture ?"
               reponseAttendue={314}
               roomId="salon"
             />

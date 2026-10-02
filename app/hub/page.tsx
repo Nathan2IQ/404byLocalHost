@@ -45,7 +45,7 @@ export default function HubPage() {
               suivante :
             </p>
             <EnigmeInput
-              label="De combien de chiffre est composé l'ID de la réunion ?"
+              label="De combien de chiffres est composé l'ID de la réunion ?"
               reponseAttendue={15}
               roomId="hub"
             />

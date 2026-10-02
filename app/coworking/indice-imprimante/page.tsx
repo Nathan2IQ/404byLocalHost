@@ -33,8 +33,8 @@ export default function IndiceImprimantePage() {
             Un mot se cache sur le boîtier.
           </h1>
           <p className="mt-5 border-l-4 border-yellow-500 bg-stone-50 px-6 py-5 text-xl leading-relaxed text-text-secondary">
-            Si tu as trop chaud ou trop froid, n’hésites pas à régler la
-            climatisation sur le boitier de commande sur le mur. D’ailleurs, si
+            Si tu as trop chaud ou trop froid, n’hésite pas à régler la
+            climatisation sur le boîtier de commande sur le mur. D’ailleurs, si
             tu y jettes un coup d’œil, tu dois trouver un mot de marqué. Quel
             est-il ?
           </p>

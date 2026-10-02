@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getProgress, type RoomId } from "@/lib/progress";
+import Link from "next/link";
 
 type RoomChallengeProps = {
   // Salle à vérifier : si déjà résolue, le défi (children) n'est plus accessible.
@@ -33,6 +34,9 @@ export default function RoomChallenge({
         <p className="text-text-secondary text-lg">
           Tu as déjà validé cette salle, direction une autre pièce !
         </p>
+        <Link href="/" className="text-primary underline">
+          Retour à l&apos;accueil
+        </Link>
       </div>
     );
   }

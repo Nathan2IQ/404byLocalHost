@@ -17,12 +17,12 @@ Dans chaque espace du lieu (le Canapé, le Coworking, l'atelier d'impression 3D,
 
 ## Aperçu
 
-|                          |                                                                                                                                             |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Format**               | Application web, ouverte dans le navigateur du téléphone en scannant un QR code. Rien à installer.                                          |
-| **Durée**                | Environ 20 minutes                                                                                                                          |
-| **Prérequis visiteur**   | Un smartphone avec appareil photo, capable de se connecter au WiFi du lieu. Aucune connaissance technique.                                  |
-| **Progression**          | Enregistrée dans des cookies pendant 30 jours : le visiteur peut faire une pause et reprendre avec le même téléphone et le même navigateur. |
+|                          |                                                                                                                                                                                         |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Format**               | Application web, ouverte dans le navigateur du téléphone en scannant un QR code. Rien à installer.                                                                                      |
+| **Durée**                | Environ 20 minutes                                                                                                                                                                      |
+| **Prérequis visiteur**   | Un smartphone avec appareil photo, capable de se connecter au WiFi du lieu. Aucune connaissance technique.                                                                              |
+| **Progression**          | Enregistrée dans des cookies pendant 30 jours : le visiteur peut faire une pause et reprendre avec le même téléphone et le même navigateur.                                             |
 | **Données personnelles** | Aucune progression ni compte utilisateur stocké par l'application. À la fin, l'adresse email et le commentaire facultatif sont transmis via EmailJS pour envoyer le badge et le retour. |
 
 ### Parcours
@@ -41,6 +41,8 @@ Dans chaque espace du lieu (le Canapé, le Coworking, l'atelier d'impression 3D,
 ## Architecture
 
 L'application n'a **ni base de données ni serveur d'état** : les pages affichent les activités, vérifient les réponses et enregistrent la progression dans le navigateur du visiteur.
+
+Pour le détail des dossiers, des composants, des fonctions métier et des flux, voir la [documentation technique](docs/architecture-technique.md).
 
 Chaque espace correspond à une route, vers laquelle pointe le QR code collé sur place.
 

@@ -125,7 +125,7 @@ function PrintStep() {
 
   return (
     <>
-      <div className="px-4 py-8 bg-roche">
+      <div className="px-4 py-8 bg-stone">
         <h4 className="text-3xl font-bold text-white mb-2">
           Tu as gagné un petit{" "}
           <span className="font-bold text-5xl pr-1 font-caveat text-yellow-500">
@@ -322,7 +322,7 @@ export default function ImprimanteQuiz() {
   if (won) {
     return (
       <>
-        <div className="animate-quiz-pop px-4 pt-8 pb-4 bg-roche text-center">
+        <div className="animate-quiz-pop px-4 pt-8 pb-4 bg-stone text-center">
           <div className="mx-auto max-w-sm rounded-xl border border-green-700/30 bg-green-100 p-5 shadow-sm">
             <h3 className="text-4xl font-bold font-caveat text-green-800">
               Bravo, tu as réussi le quiz ! 🎉

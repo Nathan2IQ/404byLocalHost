@@ -345,7 +345,11 @@ export default function PuzzleBoard() {
       {isPuzzleSolved(placed) && (
         <div className="flex w-full flex-col gap-4 rounded-lg border border-lime/30 bg-black/20 p-4">
           <p className="text-center text-2xl font-bold text-lime">
-            🎉 Puzzle terminé !
+            🎉 Puzzle terminé ! Merci d'avoir participé à ce jeu.
+          </p>
+          <p className="text-center text-2xl font-bold text-lime">
+            Cette expérience vous a été proposée par Lucas, Sébastien, Nathan et Alexandre, apprentis au Campus Odyssée en formation bac+5 Expert développeur fullstack.
+            Si cela vous a plu et que vous souhaité renforcer vos équipes, contactez le campus pour dénicher votre futur apprenti : contact@campus-odyssee.fr
           </p>
 
           {!mailSent ? (

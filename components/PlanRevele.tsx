@@ -2,11 +2,11 @@
 // Mettre plan.svg dans /public. Coordonnées dans le repère du viewBox (2099 x 1339).
 
 export const ZONES: Record<string, { name: string; pts: [number, number][] }> = {
-  coworking: { name: "Coworking", pts: [[58,798],[100,651],[184,551],[593,347],[698,415],[851,446],[861,478],[861,630],[772,646],[181,1040],[105,982],[58,893]] },
-  salon: { name: "Salon", pts: [[593,347],[798,215],[1050,373],[945,430],[851,446],[698,415]] },
-  impression: { name: "Impression 3D", pts: [[798,152],[966,40],[1218,189],[1103,294],[1097,341]] },
-  hub: { name: "Hub", pts: [[181,1040],[772,646],[830,701],[893,853],[483,1150],[268,1103]] },
-  repos: { name: "Salle de repos", pts: [[1302,538],[1512,380],[1801,567],[1596,735],[1470,672],[1397,620]] },
+  coworking: { name: "Flex office", pts: [[58,798],[100,651],[184,551],[593,347],[698,415],[851,446],[861,478],[861,630],[772,646],[181,1040],[105,982],[58,893]] },
+  salon: { name: "Salle détente et bibliotech", pts: [[593,347],[798,215],[1050,373],[945,430],[851,446],[698,415]] },
+  impression: { name: "Sandbox", pts: [[798,152],[966,40],[1218,189],[1103,294],[1097,341]] },
+  hub: { name: "Hub / salle de réunion", pts: [[181,1040],[772,646],[830,701],[893,853],[483,1150],[268,1103]] },
+  repos: { name: "Salle de restauration / cafétéria", pts: [[1302,538],[1512,380],[1801,567],[1596,735],[1470,672],[1397,620]] },
 };
 
 const toPoints = (pts: [number, number][]) => pts.map((p) => p.join(",")).join(" ");

@@ -14,7 +14,7 @@ export default function CanapePage() {
       <main className="flex flex-col">
         <div className="p-4 mt-4">
           <h2 className="text-5xl text-white font-extrabold mb-2">
-            Bienvenue au Canapé !
+            Bienvenue à la salle détente et bibliotech !
           </h2>
           <p className="text-xl pt-4 mt-4 text-white">
             Ici, tu peux trouver la{" "}

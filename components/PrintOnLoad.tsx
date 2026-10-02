@@ -17,7 +17,7 @@ export default function PrintOnLoad() {
         href="/coworking"
         className="mt-4 block text-sm font-semibold text-text-secondary underline"
       >
-        Retourner au coworking
+        Retourner au Flex office
       </a>
     </section>
   );

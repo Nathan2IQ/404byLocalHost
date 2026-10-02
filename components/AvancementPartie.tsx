@@ -11,11 +11,11 @@ type AvancementPartieProps = {
 // Légende des numéros affichés sur le plan, pour aider à s'y repérer.
 // `zone` = identifiant de la zone sur le plan (absent pour la salle de repos, qui n'est pas une énigme).
 const LEGENDE_PLAN: { numero: number; label: string; zone?: string }[] = [
-  { numero: 1, label: "Coworking", zone: "coworking" },
-  { numero: 3, label: "HUB", zone: "hub" },
-  { numero: 5, label: "Canapé", zone: "salon" },
-  { numero: 7, label: "Imprimante 3D", zone: "impression" },
-  { numero: 4, label: "Salle de repos" },
+  { numero: 1, label: "Flex office", zone: "coworking" },
+  { numero: 3, label: "Hub / salle de réunion", zone: "hub" },
+  { numero: 5, label: "Salle de détente et bibliotech", zone: "salon" },
+  { numero: 7, label: "Sandbox", zone: "impression" },
+  { numero: 4, label: "Salle de restauration / cafétéria" },
 ];
 
 // Les salles déjà résolues passent en vert, comme elles s'éclairent sur le plan.
@@ -92,7 +92,7 @@ export default function AvancementPartie({
               <span className="text-3xl">
                 Dirigez-vous maintenant vers la{" "}
                 <span className="font-bold text-5xl font-caveat text-yellow-500">
-                  salle de pause
+                  salle de restauration / cafétéria
                 </span>{" "}
                 pour réaliser l&apos;épreuve finale. 🏴‍☠️
               </span>

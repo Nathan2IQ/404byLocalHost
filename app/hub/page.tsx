@@ -15,7 +15,7 @@ export default function HubPage() {
         {" "}
         <div className="p-4 mt-4">
           <h2 className="text-5xl text-white font-extrabold mb-2">
-            Bienvenue au HUB !
+            Bienvenue au Hub / salle de réunion !
           </h2>
           <p className="text-xl pt-4 text-white">
             <span className="font-bold pr-1 text-2xl font-caveat text-yellow-500">

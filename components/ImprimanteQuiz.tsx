@@ -150,6 +150,17 @@ function PrintStep() {
             {PRINTER_PASSWORD}
           </span>
         </p>
+        <br/>
+        <p className="text-white px-1 pt-2 text-xl">
+          Guide pour les <span className="font-bold text-3xl font-caveat text-yellow-500">
+            nuls
+          </span> :
+        </p>
+        <br/>
+        <div className="flex justify-center">
+          <img src="/tuto_imprimante_3D.gif" width="400"/>
+        </div>
+        <br/>
         <a
           href={PRINTER_URL}
           target="_blank"

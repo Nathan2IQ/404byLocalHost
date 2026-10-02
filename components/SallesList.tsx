@@ -11,24 +11,24 @@ const CARD_PENDING = "border-white/20 bg-white/10 text-white";
 const SALLES = [
   {
     key: "salon" as const,
-    title: "Les canapés 🛋️",
+    title: "Salle détente et bibliotech 🛋️",
     description: "Un espace confortable pour se détendre et discuter.",
   },
   {
     key: "coworking" as const,
-    title: "L'open space 💻",
+    title: "Flex office 💻",
     description:
       "Un espace de coworking pour collaborer et échanger des idées.",
   },
   {
     key: "hub" as const,
-    title: "Le HUB 📊",
+    title: "Le hub / salle de réunion 📊",
     description:
       "Un espace dédié aux discussions importantes et aux présentations.",
   },
   {
     key: "impression-3d" as const,
-    title: "L'atelier 🛠️",
+    title: "Sandbox 🛠️",
     description:
       "Un espace pour les activités créatives et les projets pratiques.",
   },

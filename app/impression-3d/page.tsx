@@ -18,7 +18,7 @@ export default function Impression3DPage() {
           <div className="p-4 mt-4">
             {/* wrap-break-word : en text-6xl, "l'imprimante" est plus large qu'un écran de téléphone. */}
             <h2 className="text-5xl text-white font-extrabold mb-2 wrap-break-word">
-              Bienvenue au FabLab !
+              Bienvenue à la Sandbox !
             </h2>
             <p className="text-xl pt-4 mb-4 text-white">
               Ici tu pourras{" "}

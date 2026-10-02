@@ -17,7 +17,7 @@ export default function IndiceImprimantePage() {
               Localhost · Jeu de piste
             </p>
             <p className="mt-1 font-caveat text-2xl text-text-secondary">
-              Espace coworking
+              Espace Flex office
             </p>
           </div>
           <span className="rounded-full bg-yellow-500 px-4 py-2 text-sm font-bold text-white">

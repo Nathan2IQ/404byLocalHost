@@ -34,8 +34,6 @@ export default function FinalPage() {
 
   ];
 
-
-
   const solved = solvedCount(progress);
   const complete = isComplete(progress);
   const missing = TOTAL_ROOMS - solved;

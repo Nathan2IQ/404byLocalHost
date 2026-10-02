@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getProgress, type ProgressState } from "@/lib/progress";
+import { isPuzzleSolved } from "@/lib/puzzle";
 import PlanRevele from "@/components/PlanRevele";
 
 type AvancementPartieProps = {
@@ -9,13 +10,13 @@ type AvancementPartieProps = {
 };
 
 // Légende des numéros affichés sur le plan, pour aider à s'y repérer.
-// `zone` = identifiant de la zone sur le plan (absent pour la salle de repos, qui n'est pas une énigme).
+// `zone` = identifiant de la zone sur le plan ("repos" s'allume quand le puzzle final est terminé).
 const LEGENDE_PLAN: { numero: number; label: string; zone?: string }[] = [
   { numero: 1, label: "Flex office", zone: "coworking" },
   { numero: 3, label: "Hub / salle de réunion", zone: "hub" },
   { numero: 5, label: "Salle de détente et bibliotech", zone: "salon" },
   { numero: 7, label: "Sandbox", zone: "impression" },
-  { numero: 4, label: "Salle de restauration / cafétéria" },
+  { numero: 4, label: "Salle de restauration / cafétéria", zone: "repos" },
 ];
 
 // Les salles déjà résolues passent en vert, comme elles s'éclairent sur le plan.
@@ -52,28 +53,36 @@ export default function AvancementPartie({
   final = false,
 }: AvancementPartieProps) {
   const [progress, setProgress] = useState<ProgressState | null>(null);
+  // Puzzle final (salle de restauration) terminé : lu dans son propre cookie.
+  const [puzzleTermine, setPuzzleTermine] = useState(false);
 
   // Au montage : on lit la progression sauvegardée dans le cookie.
   useEffect(() => {
     setProgress(getProgress());
+    setPuzzleTermine(isPuzzleSolved());
   }, []);
 
   if (!progress) return null;
 
-  const discoveredZones = [
+  // Les 4 salles à énigmes (comptées pour débloquer la finale).
+  const sallesEnigmes = [
     ...(progress.salon ? ["salon"] : []),
     ...(progress.coworking ? ["coworking"] : []),
     ...(progress["impression-3d"] ? ["impression"] : []),
     ...(progress.hub ? ["hub"] : []),
   ];
+  // Zones allumées sur le plan : les salles à énigmes + la salle de restauration une fois le puzzle fini.
+  const discoveredZones = puzzleTermine
+    ? [...sallesEnigmes, "repos"]
+    : sallesEnigmes;
 
   let message;
 
-  if (discoveredZones.length === 0) {
+  if (sallesEnigmes.length === 0) {
     message = "Vous n'avez pas encore élucidé de salle 😒";
-  } else if (discoveredZones.length < 4) {
-    message = `Vous avez découvert ${discoveredZones.length} salle${
-      discoveredZones.length > 1 ? "s 😁" : " 😃"
+  } else if (sallesEnigmes.length < 4) {
+    message = `Vous avez découvert ${sallesEnigmes.length} salle${
+      sallesEnigmes.length > 1 ? "s 😁" : " 😃"
     }`;
   }
 
@@ -81,8 +90,17 @@ export default function AvancementPartie({
     return (
       <div className="py-8 px-4">
         <h3 className="text-center text-white font-caveat text-4xl md:text-5xl font-bold mb-6 drop-shadow-lg">
-          {discoveredZones.length < 4 ? (
+          {sallesEnigmes.length < 4 ? (
             message
+          ) : puzzleTermine ? (
+            // Tout est terminé, puzzle final compris.
+            <p>
+              🏆 Aventure terminée ! 🏆
+              <br />
+              <span className="text-3xl">
+                Tu as exploré tout Localhost. Bienvenue chez toi !
+              </span>
+            </p>
           ) : (
             <>
               <p>
@@ -114,8 +132,8 @@ export default function AvancementPartie({
     return (
       <div>
         <h2 className="text-3xl font-extrabold text-white">
-          🔒 Il te manque {4 - discoveredZones.length} pièce
-          {4 - discoveredZones.length > 1 ? "s" : ""} pour découvrir cette salle
+          🔒 Il te manque {4 - sallesEnigmes.length} pièce
+          {4 - sallesEnigmes.length > 1 ? "s" : ""} pour découvrir cette salle
         </h2>
         <br />
         <PlanRevele discovered={discoveredZones} />

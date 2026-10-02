@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore, type ReactNode } from "react";
 import { getProgress, solvedCount } from "@/lib/progress";
+import { isPuzzleSolved } from "@/lib/puzzle";
 
 const TOTAL_ROOMS = 4;
 
@@ -28,6 +29,12 @@ export default function AccueilSections({
     subscribe,
     () => solvedCount(getProgress()),
     () => null,
+  );
+  // Puzzle final (salle de restauration) terminé ?
+  const puzzleTermine = useSyncExternalStore(
+    subscribe,
+    () => isPuzzleSolved(),
+    () => false,
   );
 
   // Tant que la progression n'est pas lue, on n'affiche rien
@@ -59,9 +66,11 @@ export default function AccueilSections({
             {`${solved} salle${pluriel} terminée${pluriel}`}
           </span>
           {" · "}
-          {restantes === 0
-            ? "direction la salle de pause pour le défi final !"
-            : `${restantes} à découvrir`}
+          {restantes > 0
+            ? `${restantes} à découvrir`
+            : puzzleTermine
+              ? "puzzle final réussi, aventure terminée 🏆"
+              : "direction la salle de restauration pour le défi final !"}
         </p>
         {salles}
       </div>

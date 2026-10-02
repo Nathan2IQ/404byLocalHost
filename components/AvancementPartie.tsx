@@ -19,6 +19,15 @@ const LEGENDE_PLAN: { numero: number; label: string; zone?: string }[] = [
   { numero: 4, label: "Salle de restauration / cafétéria", zone: "repos" },
 ];
 
+// Page de chaque zone du plan (pour rendre les salles libérées cliquables).
+const PAGE_DE_ZONE: Record<string, string> = {
+  coworking: "/coworking",
+  hub: "/hub",
+  salon: "/canape",
+  impression: "/impression-3d",
+  repos: "/breakroom",
+};
+
 // Les salles déjà résolues passent en vert, comme elles s'éclairent sur le plan.
 function LegendePlan({ discovered }: { discovered: string[] }) {
   return (
@@ -76,6 +85,15 @@ export default function AvancementPartie({
     ? [...sallesEnigmes, "repos"]
     : sallesEnigmes;
 
+  // Zones libérées cliquables sur le plan : on peut y retourner directement.
+  const liens = Object.fromEntries(
+    discoveredZones.map((zone) => [zone, PAGE_DE_ZONE[zone]]),
+  );
+  // Les 4 salles résolues mais pas encore le puzzle : une flèche montre la salle
+  // de restauration (non cliquable : il faut trouver son QR code sur place).
+  const fleche =
+    sallesEnigmes.length === 4 && !puzzleTermine ? "repos" : undefined;
+
   let message;
 
   if (sallesEnigmes.length === 0) {
@@ -124,7 +142,11 @@ export default function AvancementPartie({
           )}
         </h3>
 
-        <PlanRevele discovered={discoveredZones} />
+        <PlanRevele
+          discovered={discoveredZones}
+          liens={liens}
+          fleche={fleche}
+        />
         <LegendePlan discovered={discoveredZones} />
       </div>
     );
@@ -136,7 +158,7 @@ export default function AvancementPartie({
           {4 - sallesEnigmes.length > 1 ? "s" : ""} pour découvrir cette salle
         </h2>
         <br />
-        <PlanRevele discovered={discoveredZones} />
+        <PlanRevele discovered={discoveredZones} liens={liens} />
         <LegendePlan discovered={discoveredZones} />
         <br />
         <p className="text-white/80">

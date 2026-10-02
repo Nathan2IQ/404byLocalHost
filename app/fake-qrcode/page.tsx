@@ -11,6 +11,16 @@ export default function SalleInterdite() {
                             allowFullScreen
                         />
                     </div>
+
+                    <p className="mt-6 text-xl font-bold text-red-600">
+                        😈 Tu t'es fait avoir !
+                    </p>
+
+                    <p className="mt-2 text-gray-700">
+                        Ce n'était pas le bon QR code...
+                        <br />
+                        Reprends tes recherches et continue à chercher le bon QR code. 🔍
+                    </p>
                 </div>
             </div>
         </div>

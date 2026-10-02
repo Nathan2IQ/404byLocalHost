@@ -28,6 +28,10 @@ const SIGN_ON_SRC = "/pictures/localhost-sign-on.png";
 // dans la bandeja (elles ne sont pas dans la grille, donc pas de ratio automatique).
 const PIECE_ASPECT = `${IMAGE_WIDTH / GRID_COLS} / ${IMAGE_HEIGHT / GRID_ROWS}`;
 
+// Format d'email minimal : "texte@texte.extension", sans espaces.
+// Volontairement simple : on bloque les fautes évidentes ("hola", "a@b"), pas plus.
+const EMAIL_VALIDE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 // Pièce en cours de déplacement : son numéro + la position actuelle du doigt/curseur.
 type Dragging = { index: number; x: number; y: number };
 
@@ -141,12 +145,18 @@ export default function PuzzleBoard() {
   // Tant qu'on n'a pas encore lu la progression sauvegardée, on n'affiche rien.
   if (!placed || !trayPieces) return null;
 
-  async function handleSendMail() {
-    if (!playerEmail) {
-      alert("Veuillez renseigner votre adresse email.");
+  // Point d'entrée du bouton « Envoyer » : on vérifie l'email UNE fois,
+  // et seulement s'il est valide on lance les envois.
+  function handleEnvoyer() {
+    if (!EMAIL_VALIDE.test(playerEmail.trim())) {
+      alert("Veuillez renseigner une adresse email valide.");
       return;
     }
+    handleSendMail();
+    mailDeFin();
+  }
 
+  async function handleSendMail() {
     try {
       setSending(true);
 
@@ -361,10 +371,7 @@ export default function PuzzleBoard() {
               />
 
               <button
-                onClick={() => {
-                  handleSendMail();
-                  mailDeFin();
-                }}
+                onClick={handleEnvoyer}
                 disabled={sending}
                 className="rounded bg-lime px-4 py-2 font-bold text-black hover:opacity-90 disabled:opacity-50"
               >

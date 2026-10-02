@@ -145,60 +145,62 @@ export default function PuzzleBoard() {
   // Tant qu'on n'a pas encore lu la progression sauvegardée, on n'affiche rien.
   if (!placed || !trayPieces) return null;
 
-  // Point d'entrée du bouton « Envoyer » : on vérifie l'email UNE fois,
-  // et seulement s'il est valide on lance les envois.
-  function handleEnvoyer() {
-    if (!EMAIL_VALIDE.test(playerEmail.trim())) {
+  // Envoie le badge de fin d'aventure au joueur.
+  function envoyerBadge(email: string) {
+    return emailjs.send(
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_EMAIL_FIN!,
+      {
+        to_email: email,
+        date: new Date().toLocaleString(),
+      },
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
+    );
+  }
+
+  // Envoie le commentaire du joueur à l'équipe.
+  function envoyerCommentaire(email: string) {
+    return emailjs.send(
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_FEEDBACK!,
+      {
+        player_email: email,
+        comment: comment || "Aucun commentaire",
+        date: new Date().toLocaleString(),
+      },
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
+    );
+  }
+
+  // Bouton « Envoyer » : vérifie l'email UNE fois, puis envoie les deux mails
+  // l'un APRÈS l'autre (await), avec un seul état « Envoi... » du début à la fin.
+  async function handleEnvoyer() {
+    const email = playerEmail.trim();
+    if (!EMAIL_VALIDE.test(email)) {
       alert("Veuillez renseigner une adresse email valide.");
       return;
     }
-    handleSendMail();
-    mailDeFin();
-  }
 
-  async function handleSendMail() {
+    setSending(true);
     try {
-      setSending(true);
+      // 1. Le badge d'abord : c'est ce qui compte pour le joueur.
+      //    S'il échoue, on s'arrête (catch plus bas) : rien n'est considéré comme envoyé.
+      await envoyerBadge(email);
 
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_FEEDBACK!,
-        {
-          player_email: playerEmail,
-          comment: comment || "Aucun commentaire",
-          date: new Date().toLocaleString(),
-        },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
-      );
+      // 2. Puis le commentaire pour l'équipe. S'il échoue, ce n'est pas la faute du joueur
+      //    (il a déjà son badge) : on le note dans la console sans lui afficher d'erreur.
+      try {
+        await envoyerCommentaire(email);
+      } catch (err) {
+        console.error("Erreur EmailJS (commentaire) :", err);
+      }
 
       setMailSent(true);
     } catch (err) {
-      console.error("Erreur EmailJS :", err);
+      console.error("Erreur EmailJS (badge) :", err);
       alert("Erreur lors de l'envoi.");
     } finally {
-      setSending(false);
-    }
-  }
-
-  async function mailDeFin() {
-    try {
-      setSending(true);
-
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_EMAIL_FIN!,
-        {
-          to_email: playerEmail,
-          date: new Date().toLocaleString(),
-        },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
-      );
-
-      setMailSent(true);
-    } catch (err) {
-      console.error("Erreur EmailJS :", err);
-      alert("Erreur lors de l'envoi.");
-    } finally {
+      // Toujours exécuté, succès ou échec : le bouton redevient cliquable.
       setSending(false);
     }
   }
